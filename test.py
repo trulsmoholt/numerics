@@ -27,11 +27,20 @@ def RK4(A,f,u,h,k):
         u[:,i] = u[:,i-1] + 1/6*(k1 + 2*k2 + 2*k3 + k4)
     return u
 
+def uExc(u,T,k,x):
+    uExc = u.copy()
+    for i in range(1,u.shape[1]):
+        t=k*i
+        uExc[:,i]=np.sin(2*3.1415*(x + t))
+    return uExc
+
+
+
 
 
 T=2
-m=15
-n = 50
+m=18
+n = 12
 u = np.zeros([m,n])
 h=1/m
 k = T/n
@@ -48,6 +57,9 @@ print(Y.shape)
 print(u.shape)
 print(k/h)
 print(A)
+
+uE = uExc(u,T,k,x)
+
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 
