@@ -32,31 +32,38 @@ def L2Error(m,n,T):
     k = T/n
     A = finitedifferences.centralDifference(m)
     x = np.linspace(0,1,m)
-    f = np.sin(2*3.1415*x)
+    f = np.sin(2*PI*x)
     u = RK4(A,f,u,h,k)
     uE = uExc(u,T,k,x)
 
     error = np.abs(u[:,n-1]-uE[:,n-1])
     return np.dot(error,error)*h
-nTests = 6
+nTests = 8
 gridSize = 5
 res = np.zeros([nTests,4])
 for i in range(0,nTests):
-    res[i,0] = L2Error(gridSize,gridSize,1)
+    res[i,0] = L2Error(gridSize,gridSize,2)
     res[i,1] = 2/gridSize
     if(i>0):
-        res[i,2] = res[i-1,0]/res[i,0]
+        [res[i,2], intercept] = np.polyfit(np.log(res[i-1:i+1,1]),np.log(res[i-1:i+1,0]),1)
     gridSize = gridSize * 2
+
+[slope, intercept] = np.polyfit(np.log(res[:,1]),np.log(res[:,0]),1)
+print(res[:,2])
+
+plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 
 plt.subplot(121)
 plt.plot(res[:,1],res[:,0],"bs")
-plt.xlabel('steplength in time and space')
+plt.xlabel('steplength in space and time')
 plt.ylabel('L2 error')
+plt.gca().invert_xaxis()
 plt.subplot(122)
 plt.plot(res[1:,1],res[1:,2],"g^")
-plt.xlabel('steplength in time and space')
-plt.ylabel('improvement in L2 error when taking half the step size')
+plt.xlabel('steplength in space and time')
+plt.ylabel('Convergence/slope of loglog plot')
 plt.gca().invert_xaxis()
+plt.savefig("loglog_slope.png")
 plt.show()
 
 
