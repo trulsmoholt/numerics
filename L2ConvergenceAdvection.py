@@ -38,7 +38,7 @@ def L2Error(m,n,T):
 
     error = np.abs(u[:,n-1]-uE[:,n-1])
     return np.dot(error,error)*h
-nTests = 8
+nTests = 9
 gridSize = 5
 res = np.zeros([nTests,4])
 for i in range(0,nTests):

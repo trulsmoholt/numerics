@@ -17,6 +17,8 @@ def solver(A,f,u,h,k):
 
     return u
 
+
+
 def RK4(A,f,u,h,k):
     u[:,0]=f[:]
     for i in range(1,u.shape[1]):
@@ -38,9 +40,9 @@ def uExc(u,T,k,x):
 
 
 
-T=2
-m=18
-n = 12
+T=4
+m=12
+n = 400
 u = np.zeros([m,n])
 h=1/m
 k = T/n
@@ -50,7 +52,7 @@ A = finitedifferences.centralDifference(m)
 x = np.linspace(0,1,m)
 f = np.sin(2*3.1415*x)
 print(u.shape[1])
-u = RK4(A,f,u,h,k)
+u = solver(A,f,u,h,k)
 X,Y=np.meshgrid(np.linspace(0,1,m),np.linspace(0,T,n))
 print(X.shape)
 print(Y.shape)
