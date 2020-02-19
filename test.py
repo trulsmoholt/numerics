@@ -42,7 +42,7 @@ def uExc(u,T,k,x):
 
 T=4
 m=12
-n = 400
+n = 200
 u = np.zeros([m,n])
 h=1/m
 k = T/n
@@ -52,7 +52,7 @@ A = finitedifferences.centralDifference(m)
 x = np.linspace(0,1,m)
 f = np.sin(2*3.1415*x)
 print(u.shape[1])
-u = solver(A,f,u,h,k)
+u = RK4(A,f,u,h,k)
 X,Y=np.meshgrid(np.linspace(0,1,m),np.linspace(0,T,n))
 print(X.shape)
 print(Y.shape)

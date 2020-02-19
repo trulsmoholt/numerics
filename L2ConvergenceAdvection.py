@@ -31,25 +31,25 @@ def L2Error(m,n,T):
     h = 1/m
     k = T/n
     A = finitedifferences.centralDifference(m)
-    x = np.linspace(0,1,m)
+    x = np.linspace(0,1,m,endpoint= False)
     f = np.sin(2*PI*x)
     u = RK4(A,f,u,h,k)
-    uE = uExc(u,T,k,x)
+    #uE = uExc(u,T,k,x)
 
-    error = np.abs(u[:,n-1]-uE[:,n-1])
+    error = np.abs(u[:,n-1]-f)
     return np.dot(error,error)*h
-nTests = 9
+nTests = 7
 gridSize = 5
 res = np.zeros([nTests,4])
 for i in range(0,nTests):
-    res[i,0] = L2Error(gridSize,gridSize,2)
+    res[i,0] = L2Error(gridSize,5*2*2*2*2**nTests,2)
     res[i,1] = 2/gridSize
     if(i>0):
         [res[i,2], intercept] = np.polyfit(np.log(res[i-1:i+1,1]),np.log(res[i-1:i+1,0]),1)
     gridSize = gridSize * 2
 
 [slope, intercept] = np.polyfit(np.log(res[:,1]),np.log(res[:,0]),1)
-print(res[:,2])
+print(res)
 
 plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 
