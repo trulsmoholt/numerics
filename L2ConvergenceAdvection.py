@@ -1,4 +1,4 @@
-from math import sin
+from math import sin,sqrt
 import numpy as np
 import finitedifferences
 from matplotlib import pyplot as plt
@@ -29,7 +29,7 @@ def RK4(A,f,u,h,k):
 def L2Error(m,n,T):
     u = np.zeros([m,n])
     h = 1/m
-    k = T/n
+    k = T/(n-1)
     A = finitedifferences.centralDifference(m)
     x = np.linspace(0,1,m,endpoint= False)
     f = np.sin(2*PI*x)
@@ -37,12 +37,12 @@ def L2Error(m,n,T):
     #uE = uExc(u,T,k,x)
 
     error = np.abs(u[:,n-1]-f)
-    return np.dot(error,error)*h
+    return sqrt(np.dot(error,error)*h)
 nTests = 7
-gridSize = 5
+gridSize = 4
 res = np.zeros([nTests,4])
 for i in range(0,nTests):
-    res[i,0] = L2Error(gridSize,5*2*2*2*2**nTests,2)
+    res[i,0] = L2Error(gridSize,5*2*2*2**nTests,1)
     res[i,1] = 2/gridSize
     if(i>0):
         [res[i,2], intercept] = np.polyfit(np.log(res[i-1:i+1,1]),np.log(res[i-1:i+1,0]),1)

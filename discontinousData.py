@@ -66,7 +66,7 @@ def L2Error(m,n):
     u = np.zeros([m,n])
     y = u.copy()
     h = 1/m
-    k = T/n
+    k = T/(n-1)
     A = finitedifferences.centralDifference(m)
     x = np.linspace(0,1,m)
     u = RK4(A,f,u,h,k)
